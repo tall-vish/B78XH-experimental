@@ -2,6 +2,7 @@ class SpeedDirector {
 
 	constructor(fmc) {
 		this._fmc = fmc;
+		this._commandedSpeed = undefined;
 		this._commandedSpeedType = undefined;
 		this._lastCommandedSpeedType = undefined;
 		this._speedPhase = undefined;
@@ -17,6 +18,7 @@ class SpeedDirector {
 
 	_initSpeeds(){
 		this._climbSpeedRestriction = new ClimbSpeedRestriction(null, null);
+		this._unexecutedClimbSpeedRestriction = new ClimbSpeedRestriction(null, null);
 		this._climbSpeedTransition = new SpeedTransition();
 		this._climbSpeedSelected = new ClimbSpeed(null);
 		this._climbSpeedEcon = new ClimbSpeed(this._fmc.getEconClbManagedSpeed());
@@ -25,6 +27,7 @@ class SpeedDirector {
 		this._cruiseSpeedEcon = new CruiseSpeed(this._fmc.getEconCrzManagedSpeed());
 
 		this._descentSpeedRestriction = new DescentSpeedRestriction(null, null);
+		this._unexecutedDescentSpeedRestriction = new DescentSpeedRestriction(null, null);
 		this._descentSpeedTransition = new SpeedTransition(240);
 		this._descentSpeedSelected = new DescentSpeed(null);
 		this._descentSpeedEcon = new DescentSpeed(282);
@@ -42,22 +45,30 @@ class SpeedDirector {
 		return this._commandedSpeedType;
 	}
 
-	update(flightPhase) {
-		switch (flightPhase) {
-			case FlightPhase.FLIGHT_PHASE_PREFLIGHT:
-			case FlightPhase.FLIGHT_PHASE_TAXI:
-			case FlightPhase.FLIGHT_PHASE_TAKEOFF:
-			case FlightPhase.FLIGHT_PHASE_CLIMB:
-			case FlightPhase.FLIGHT_PHASE_GOAROUND:
-				this._updateClimbSpeed();
-				break;
-			case FlightPhase.FLIGHT_PHASE_CRUISE:
-				this._updateCruiseSpeed();
-				break;
-			case FlightPhase.FLIGHT_PHASE_DESCENT:
-			case FlightPhase.FLIGHT_PHASE_APPROACH:
-				this._updateDescentSpeed();
-				break;
+	update() {
+		if (this._fmc.getIsVNAVActive()) {
+			switch (this._fmc.currentFlightPhase) {
+				case FlightPhase.FLIGHT_PHASE_PREFLIGHT:
+				case FlightPhase.FLIGHT_PHASE_TAXI:
+				case FlightPhase.FLIGHT_PHASE_TAKEOFF:
+				case FlightPhase.FLIGHT_PHASE_CLIMB:
+				case FlightPhase.FLIGHT_PHASE_GOAROUND:
+					this._updateClimbSpeed();
+					break;
+				case FlightPhase.FLIGHT_PHASE_CRUISE:
+					this._updateCruiseSpeed();
+					break;
+				case FlightPhase.FLIGHT_PHASE_DESCENT:
+				case FlightPhase.FLIGHT_PHASE_APPROACH:
+					this._updateDescentSpeed();
+					break;
+			}
+			if(this._commandedSpeed && isFinite(this._commandedSpeed.speed)){
+				this._fmc.setAPManagedSpeed(this._commandedSpeed.speed, Aircraft.AS01B);
+			}
+		} else {
+			this._commandedSpeedType = undefined;
+			this._lastCommandedSpeedType = undefined;
 		}
 	}
 
@@ -86,20 +97,38 @@ class SpeedDirector {
 
 		let flapsHandleIndex = Simplane.getFlapsHandleIndex();
 
-		return Math.min(speed[commandedSpeedKey], maxSpeed, this._fmc.getFlapProtectionMaxSpeed(flapsHandleIndex));
+		this._commandedSpeed = new Speed(Math.min(speed[commandedSpeedKey], maxSpeed, this._fmc.getFlapProtectionMaxSpeed(flapsHandleIndex)));
 	}
 
 	_updateCruiseSpeed() {
+		let speed = {
+			[SpeedType.SPEED_TYPE_SELECTED]: (this._cruiseSpeedSelected && this._cruiseSpeedSelected.isValid() ? this._cruiseSpeedSelected.speed : null),
+			[SpeedType.SPEED_TYPE_ECON]: (this._cruiseSpeedEcon && this._cruiseSpeedEcon.isValid() ? this._cruiseSpeedEcon.speed : null)
+		};
 
+		let commandedSpeedKey = SpeedType.SPEED_TYPE_ECON;
+
+		if (speed[SpeedType.SPEED_TYPE_SELECTED]) {
+			commandedSpeedKey = SpeedType.SPEED_TYPE_SELECTED;
+		}
+
+		this._updateLastCommandedSpeed();
+
+		this._updateCommandedSpeed(commandedSpeedKey, SpeedPhase.SPEED_PHASE_CRUISE)
+
+		return new Speed(speed[commandedSpeedKey]);
 	}
 
 	_updateDescentSpeed() {
+		this._updateLastCommandedSpeed();
+		this._updateCommandedSpeed(undefined, SpeedPhase.SPEED_PHASE_DESCENT)
 
+		return new Speed(this._fmc.getDesManagedSpeed());
 	}
 
 	_updateLastCommandedSpeed() {
 		this._lastCommandedSpeedType = this._commandedSpeedType;
-		this._lastSpeedPhase = this._lastSpeedPhase;
+		this._lastSpeedPhase = this._speedPhase;
 	}
 
 	_updateCommandedSpeed(speedType, speedPhase) {
@@ -112,15 +141,6 @@ class SpeedDirector {
 		if (this._lastCommandedSpeedType !== this._commandedSpeedType || this._lastSpeedPhase !== this._speedPhase) {
 			SimVar.SetSimVarValue('L:FMC_UPDATE_CURRENT_PAGE', 'Number', 1);
 		}
-	}
-
-	isClimbSpeedRestrictionValid() {
-		if (this._climbSpeedRestriction.speed && isFinite(this._climbSpeedRestriction.speed) && this._climbSpeedRestriction.altitude && isFinite(this._climbSpeedRestriction.altitude)) {
-			if (this._climbSpeedRestriction.altitude > this._planeAltitude) {
-				return true;
-			}
-		}
-		return false;
 	}
 }
 
@@ -192,12 +212,20 @@ class ClimbSpeedRestriction extends SpeedRestriction {
 	}
 
 	isValid(planeAltitude){
-		if (this.speed && isFinite(this.speed) && this.altitude && isFinite(this.altitude)) {
+		if (this.speed && isFinite(this.speed) && this.altitude && isFinite(this.altitude) && this.isActive()) {
 			if (this.altitude > planeAltitude) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	get isActive() {
+		return this.isActive;
+	}
+
+	set isActive(isActive) {
+		this.isActive = isActive;
 	}
 }
 

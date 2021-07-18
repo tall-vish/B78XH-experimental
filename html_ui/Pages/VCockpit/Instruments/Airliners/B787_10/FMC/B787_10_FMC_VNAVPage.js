@@ -28,20 +28,18 @@ class B787_10_FMC_VNAVPage {
 			cell = cell + 'ACT ';
 		}
 
-		switch (this.fmc._fmcCommandClimbSpeedType) {
-			case 'SPEED_RESTRICTION':
-				if (this.fmc.climbSpeedRestriction) {
-					cell = cell + this.fmc.climbSpeedRestriction.speed + 'KT ';
-				}
+		switch (this.fmc._speedDirector.commandedSpeedType) {
+			case SpeedType.SPEED_TYPE_RESTRICTION:
+				cell = cell + this.fmc._speedDirector._commandedSpeed.speed + 'KT ';
 				break;
-			case 'SPEED_TRANSITION':
-				cell = cell + this.fmc.getCrzManagedSpeed() + 'KT';
+			case SpeedType.SPEED_TYPE_TRANSITION:
+				cell = cell + this.fmc._speedDirector._commandedSpeed.speed + 'KT';
 				break;
-			case 'SPEED_SELECTED':
-				let selectedClimbSpeed = this.fmc.preSelectedClbSpeed || '';
+			case SpeedType.SPEED_TYPE_SELECTED:
+				let selectedClimbSpeed = this.fmc._speedDirector._commandedSpeed.speed || '';
 				cell = cell + selectedClimbSpeed + 'KT';
 				break;
-			case 'SPEED_ECON':
+			case SpeedType.SPEED_TYPE_ECON:
 				cell = cell + 'ECON';
 				break;
 			default:
@@ -81,24 +79,24 @@ class B787_10_FMC_VNAVPage {
 
 	getClimbSpeedRestrictionCell() {
 		let cell = '---/-----';
-		let speedRestrictionSpeedValue = '';
-		let speedRestrictionAltitudeValue = '';
+		let speedRestrictionSpeedValue = null;
+		let speedRestrictionAltitudeValue = null;
 		if (this.fmc._activeExecHandlers['CLIMB_SPEED_RESTRICTION_HANDLER']) {
-			if (this.fmc._climbSpeedRestriction) {
-				speedRestrictionSpeedValue = this.fmc._climbSpeedRestriction.speed || '';
-				speedRestrictionAltitudeValue = this.fmc._climbSpeedRestriction.altitude || '';
+			if (this.fmc._speedDirector._unexecutedClimbSpeedRestriction) {
+				speedRestrictionSpeedValue = this.fmc._speedDirector._unexecutedClimbSpeedRestriction.speed || null;
+				speedRestrictionAltitudeValue = this.fmc._speedDirector._unexecutedClimbSpeedRestriction.altitude || null;
 			}
 		} else {
-			if (this.fmc.climbSpeedRestriction) {
-				speedRestrictionSpeedValue = this.fmc.climbSpeedRestriction.speed || '';
-				speedRestrictionAltitudeValue = this.fmc.climbSpeedRestriction.altitude || '';
+			if (this.fmc._speedDirector._climbSpeedRestriction) {
+				speedRestrictionSpeedValue = this.fmc._speedDirector._climbSpeedRestriction.speed || null;
+				speedRestrictionAltitudeValue = this.fmc._speedDirector._climbSpeedRestriction.altitude || null;
 			}
 		}
 
 
-		if (speedRestrictionSpeedValue && isFinite(speedRestrictionSpeedValue) && speedRestrictionAltitudeValue && isFinite(speedRestrictionAltitudeValue)) {
-			if (this.fmc._fmcCommandClimbSpeedType === 'SPEED_RESTRICTION') {
-				if (!this.fmc._climbSpeedRestriction) {
+		if (speedRestrictionSpeedValue && Number.isFinite(speedRestrictionSpeedValue) && speedRestrictionAltitudeValue && Number.isFinite(speedRestrictionAltitudeValue)) {
+			if (this.fmc._speedDirector._commandedSpeedType === SpeedType.SPEED_TYPE_RESTRICTION) {
+				if (!this.fmc._activeExecHandlers['CLIMB_SPEED_RESTRICTION_HANDLER']) {
 					speedRestrictionSpeedValue = '[color=magenta]' + speedRestrictionSpeedValue + '[/color]';
 				}
 			}
@@ -111,18 +109,18 @@ class B787_10_FMC_VNAVPage {
 
 	getClimbSpeedTransitionCell() {
 		let cell = '';
-		let speed = this.fmc.getCrzManagedSpeed();
+		let speed = this.fmc._speedDirector._climbSpeedTransition.speed;
 		if (isFinite(speed)) {
 			cell = speed.toFixed(0);
 		}
 
-		if (this.fmc._fmcCommandClimbSpeedType === 'SPEED_TRANSITION') {
+		if (this.fmc._speedDirector.commandedSpeedType === SpeedType.SPEED_TYPE_TRANSITION) {
 			cell = '[color=magenta]' + cell + '[/color]';
 		}
 
 		cell = cell + '/10000';
 
-		if (this.fmc._climbSpeedTransitionDeleted || Simplane.getAltitude() > 10000) {
+		if (this.fmc._speedDirector._climbSpeedTransition.isValid(Simplane.getAltitude())) {
 			cell = '';
 		}
 
