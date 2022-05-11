@@ -12,6 +12,8 @@
                 </UseTemplate>
             </Default>
 
+            <!--  IRS Panel  -->
+
             <Case Value="INSTRUMENT_Knob_IRS_1">
                 <UseTemplate Name="HEAVY_B78XH_IRS_Switch_Template">
                     <ID>1</ID>
@@ -30,8 +32,94 @@
                 </UseTemplate>
             </Case>
 
-            <Case Value="TRANSPONDER_Knob_Mode">
+            <!--  Overhead Electrical Panel  -->
+
+            <Case Value="Btn_ovh_ELectrical_Cabin">
+                <UseTemplate Name="HEAVY_B78XH_OVH_ELEC_CABIN_TEMPLATE"/>
             </Case>
+
+            <Case Value="Btn_ovh_ELectrical_IFE">
+                <UseTemplate Name="HEAVY_B78XH_OVH_ELEC_IFE_TEMPLATE"/>
+            </Case>            
+
+            <!--  Hydraulics Panel  -->
+
+            <Case Value="HYDRAULIC_Push_Pump_1">
+                <UseTemplate Name="HEAVY_B78XH_HYD_L_ENG_TEMPLATE"/>
+            </Case>
+
+            <Case Value="HYDRAULIC_Push_Pump_2">
+                <UseTemplate Name="HEAVY_B78XH_HYD_R_ENG_TEMPLATE"/>
+            </Case>
+
+            <!--  Air Conditioning Panel  -->
+
+            <Case Value="PRESSURIZATION_PUSH_PACKS_1">
+                <UseTemplate Name="HEAVY_B78XH_OVH_AC_L_PACK_TEMPLATE"/>
+            </Case>
+
+            <Case Value="PRESSURIZATION_PUSH_PACKS_2">
+                <UseTemplate Name="HEAVY_B78XH_OVH_AC_R_PACK_TEMPLATE"/>
+            </Case>
+
+            <Case Value="PRESSURIZATION_PUSH_L_TRIMAIR">
+                <UseTemplate Name="HEAVY_B78XH_OVH_TRIM_AIR_L_TEMPLATE"/>
+            </Case>
+            
+            <Case Value="PRESSURIZATION_PUSH_R_TRIMAIR">
+                <UseTemplate Name="HEAVY_B78XH_OVH_TRIM_AIR_R_TEMPLATE"/>
+            </Case>
+            
+            <Case Value="PRESSURIZATION_PUSH_FANSLOWER">
+                <UseTemplate Name="HEAVY_B78XH_OVH_FANS_LOWER_TEMPLATE"/>
+            </Case>
+            
+            <Case Value="PRESSURIZATION_PUSH_RECIRCUPPER">
+                <UseTemplate Name="HEAVY_B78XH_OVH_RECIRC_UPPER_TEMPLATE"/>
+            </Case>
+    
+            <Case Value="PRESSURIZATION_PUSH_COOLINGAFT">
+                <UseTemplate Name="HEAVY_B78XH_OVH_COOLING_AFT_TEMPLATE"/>
+            </Case>
+    
+            <Case Value="PRESSURIZATION_PUSH_EQUIPFWD">
+                <UseTemplate Name="HEAVY_B78XH_OVH_EQUIP_FWD_TEMPLATE"/>
+            </Case>
+    
+            <Case Value="PRESSURIZATION_PUSH_FWD">
+                <UseTemplate Name="HEAVY_B78XH_OVH_OUTFLOW_FWD_TEMPLATE"/>
+            </Case>
+    
+            <Case Value="PRESSURIZATION_PUSH_AFT">
+                <UseTemplate Name="HEAVY_B78XH_OVH_OUTFLOW_AFT_TEMPLATE"/>
+            </Case>
+    
+            <Case Value="PRESSURIZATION_PUSH_VENTILATION">
+                <UseTemplate Name="HEAVY_B78XH_OVH_PRESSURE_VENT_TEMPLATE"/>
+            </Case>
+    
+
+            <Case Value="TRANSPONDER_Knob_Mode"/>
+
         </Switch>
     </Template>
+
+    <!--<Template Name = "ASOBO_GT_Interaction_WheelAndContinuousLeft">
+        <Switch Param="NODE_ID">
+            <Default>
+                <DefaultTemplateParameters>
+                    <SWITCH_DIRECTION>Horizontal</SWITCH_DIRECTION>
+                    <ALWAYS_USE_ANIM_LAG>False</ALWAYS_USE_ANIM_LAG>
+                </DefaultTemplateParameters>
+
+                <UseTemplate Name="ASOBO_GT_Interaction_WheelAndContinuousLeft_Horizontal">
+                </UseTemplate>
+            </Default>
+
+            <Case Value="knob_ovhd_Lmisc_L_hudBrt">
+                <UseTemplate="HEAVY_B78XH_L_HUD_BRT"/>
+            </Case>
+        </Switch>
+    </Template>-->
+
 </ModelBehaviors>

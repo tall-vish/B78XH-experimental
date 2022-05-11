@@ -1,3 +1,4 @@
 <ModelBehaviors>
     <Include RelativeFile="Common.xml"/>
+    <Include RelativeFile="Extra.xml"/>
 </ModelBehaviors>

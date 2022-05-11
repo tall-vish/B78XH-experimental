@@ -1,0 +1,44 @@
+<ModelBehaviors>
+
+    <Template Name="HEAVY_B78XH_IRS_Switch_Template">
+        <DefaultTemplateParameters>
+            <NODE_ID>INSTRUMENT_Knob_IRS_#ID#</NODE_ID>
+            <ANIM_NAME>INSTRUMENT_Knob_IRS_#ID#</ANIM_NAME>
+            <SWITCH_POSITION_TYPE>L</SWITCH_POSITION_TYPE>
+            <ANIMTIP_0>Turn IRS off</ANIMTIP_0>
+            <ANIMTIP_1>Turn IRS on</ANIMTIP_1>
+            <Switch Param="ID">
+                <Case Value="1">
+                    <SWITCH_POSITION_VAR>B78XH_IRS_L_SWITCH_STATE</SWITCH_POSITION_VAR>
+                </Case>
+                <Case Value="2">
+                    <SWITCH_POSITION_VAR>B78XH_IRS_R_SWITCH_STATE</SWITCH_POSITION_VAR>
+                </Case>
+            </Switch>
+        </DefaultTemplateParameters>
+        <Component ID="#NODE_ID#" Node="#NODE_ID#">
+            <UseTemplate Name="ASOBO_GT_Switch_2States">
+                <SWITCH_DIRECTION>Horizontal</SWITCH_DIRECTION>
+                <ARROW_TYPE>Curved</ARROW_TYPE>
+                <WWISE_EVENT>wipers_switch</WWISE_EVENT>
+            </UseTemplate>
+        </Component>
+    </Template>
+
+    <Template Name="HEAVY_B78XH_OVH_ELEC_CABIN_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>Btn_ovh_ELectrical_Cabin</NODE_ID>
+            <ANIM_NAME>Btn_ovh_electrical_cabin</ANIM_NAME>
+            <ANIMTIP_0>Test button off</ANIMTIP_0>
+            <ANIMTIP_1>Test button on</ANIMTIP_1>
+        </Parameters>
+        <Switch Param="Interaction Type">
+            <Case Value="Push">
+                <Component ID="#NODE_ID#" Node="#NODE_ID#">
+                    <UseTemplate Name="Asobo_GT_Push_Button"/>
+                </Component>
+            </Case>
+        </Switch>
+    </Template>
+
+</ModelBehaviors>

@@ -1,46 +1,6 @@
 <ModelBehaviors>
-    <Template Name="HEAVY_B78XH_Switch_Elec_Template">
-        <DefaultTemplateParameters>
-            <Switch Param="ID">
-                <Case Value="L">
-                    <NODE_ID>HYDRAULIC_Knob_Demand_1</NODE_ID>
-                    <ANIM_NAME>HYDRAULIC_Knob_Demand_1</ANIM_NAME>
-                </Case>
-                <Case Value="R">
-                    <NODE_ID>HYDRAULIC_Knob_Demand_2</NODE_ID>
-                    <ANIM_NAME>HYDRAULIC_Knob_Demand_2</ANIM_NAME>
-                </Case>
-                <Default>
-                    <NODE_ID>HYDRAULICS_Knob_#ID#</NODE_ID>
-                    <ANIM_NAME>HYDRAULICS_Knob_#ID#</ANIM_NAME>
-                </Default>
-            </Switch>
-            <SWITCH_POSITION_TYPE>L</SWITCH_POSITION_TYPE>
-        </DefaultTemplateParameters>
-        <Component ID="#NODE_ID#" Node="#NODE_ID#">
-            <UseTemplate Name="ASOBO_GT_Switch_3States">
-                <SWITCH_DIRECTION>Horizontal</SWITCH_DIRECTION>
-                <ARROW_TYPE>Curved</ARROW_TYPE>
-                <SWITCH_POSITION_VAR>B78XH_HYDRAULIC_ELEC_#ID#_SWITCH_STATE</SWITCH_POSITION_VAR>
-                <WWISE_EVENT>wipers_switch</WWISE_EVENT>
-            </UseTemplate>
-        </Component>
-    </Template>
 
-    <Template Name="HEAVY_B78XH_ENGINE_Switch_Hydraulic_Template">
-        <DefaultTemplateParameters>
-            <ID>1</ID>
-            <NODE_ID>HYDRAULIC_PUSH_Pump_#ID#</NODE_ID>
-            <ANIM_NAME>HYDRAULIC_PUSH_Pump_#ID#</ANIM_NAME>
-            <IS_AIRLINER>true</IS_AIRLINER>
-            <PRESS_WARNING_THRESHOLD_PSI>4850</PRESS_WARNING_THRESHOLD_PSI>
-            <NO_SEQ2/>
-        </DefaultTemplateParameters>
-        <UseTemplate Name="ASOBO_ENGINE_Switch_Hydraulic_SubTemplate">
-            <WWISE_EVENT_1>battery_switch_on</WWISE_EVENT_1>
-            <WWISE_EVENT_2>battery_switch_off</WWISE_EVENT_2>
-        </UseTemplate>
-    </Template>
+    <!--  IRS Panel  -->
 
     <Template Name="HEAVY_B78XH_IRS_Switch_Template">
         <DefaultTemplateParameters>
@@ -67,44 +27,321 @@
         </Component>
     </Template>
 
-    <Template Name="HEAVY_B78XH_TEMPERATURE_Switch_Template">
-        <DefaultTemplateParameters>
-            <NODE_ID>PASSENGER_Knob_Temperature_#ID#</NODE_ID>
-            <ANIM_NAME>PASSENGER_Knob_Temperature_#ID#</ANIM_NAME>
-            <SWITCH_POSITION_TYPE>L</SWITCH_POSITION_TYPE>
-            <SWITCH_POSITION_VAR>B78XH_PASSENGER_KNOB_TEMPERATURE_#ID#_SWITCH_STATE</SWITCH_POSITION_VAR>
-            <ANIMTIP_0>Decrease</ANIMTIP_0>
-            <ANIMTIP_0_ON_CURSOR>TurnLeft</ANIMTIP_0_ON_CURSOR>
-            <ANIMTIP_1>Increase</ANIMTIP_1>
-            <ANIMTIP_1_ON_CURSOR>TurnRight</ANIMTIP_1_ON_CURSOR>
-        </DefaultTemplateParameters>
+    <!--  Overhead Electrical Panel  -->
+
+    <Template Name="HEAVY_B78XH_OVH_ELEC_CABIN_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>Btn_ovh_ELectrical_Cabin</NODE_ID>
+            <ANIM_NAME>Btn_ovh_electrical_cabin</ANIM_NAME>
+            <PART_ID>Btn_ovh_electrical_cabin</PART_ID>
+            <ANIMTIP_0>Turn Cabin/Utility Power on</ANIMTIP_0>
+            <ANIMTIP_1>Turn Cabin/Utility Power off</ANIMTIP_1>
+        </Parameters>
+
         <Component ID="#NODE_ID#" Node="#NODE_ID#">
-            <UseTemplate Name="ASOBO_GT_Switch_7States">
-                <SWITCH_DIRECTION>Horizontal</SWITCH_DIRECTION>
-                <ARROW_TYPE>Curved</ARROW_TYPE>
-                <WWISE_EVENT>wipers_switch</WWISE_EVENT>
+            <UseTemplate Name="ASOBO_GT_Switch_Dummy">
+                <NODE_ID>Btn_ovh_ELectrical_Cabin</NODE_ID>
+                <ANIM_NAME>Btn_ovh_electrical_cabin</ANIM_NAME>
+                <WWISE_EVENT_1>apu_generator_switch_on</WWISE_EVENT_1>
+                <WWISE_EVENT_2>apu_generator_switch_off</WWISE_EVENT_2>
             </UseTemplate>
         </Component>
     </Template>
 
-    <Template Name="HEAVY_B78XH_TEMPERATURE_Cargo_Switch_Template">
-        <DefaultTemplateParameters>
-            <NODE_ID>PASSENGER_Knob_Temperature_#ID#</NODE_ID>
-            <ANIM_NAME>PASSENGER_Knob_Temperature_#ID#</ANIM_NAME>
-            <SWITCH_POSITION_TYPE>L</SWITCH_POSITION_TYPE>
-            <SWITCH_POSITION_VAR>B78XH_PASSENGER_KNOB_TEMPERATURE_#ID#_SWITCH_STATE</SWITCH_POSITION_VAR>
-            <ANIMTIP_0>Decrease</ANIMTIP_0>
-            <ANIMTIP_0_ON_CURSOR>TurnLeft</ANIMTIP_0_ON_CURSOR>
-            <ANIMTIP_1>Increase</ANIMTIP_1>
-            <ANIMTIP_1_ON_CURSOR>TurnRight</ANIMTIP_1_ON_CURSOR>
-        </DefaultTemplateParameters>
+    <Template Name="HEAVY_B78XH_OVH_ELEC_IFE_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>Btn_ovh_ELectrical_IFE</NODE_ID>
+            <ANIM_NAME>Btn_ovh_electrical_ife</ANIM_NAME>
+            <PART_ID>Btn_ovh_electrical_ife</PART_ID>
+            <ANIMTIP_0>Turn IFE Power on</ANIMTIP_0>
+            <ANIMTIP_1>Turn IFE Power off</ANIMTIP_1>
+        </Parameters>
+
         <Component ID="#NODE_ID#" Node="#NODE_ID#">
-            <UseTemplate Name="ASOBO_GT_Switch_XStates">
-                <NUM_STATES>8</NUM_STATES>
-                <SWITCH_DIRECTION>Horizontal</SWITCH_DIRECTION>
-                <ARROW_TYPE>Curved</ARROW_TYPE>
-                <WWISE_EVENT>wipers_switch</WWISE_EVENT>
+            <UseTemplate Name="ASOBO_GT_Switch_Dummy">
+                <NODE_ID>Btn_ovh_ELectrical_IFE</NODE_ID>
+                <ANIM_NAME>Btn_ovh_electrical_ife</ANIM_NAME>
+                <WWISE_EVENT_1>apu_generator_switch_on</WWISE_EVENT_1>
+                <WWISE_EVENT_2>apu_generator_switch_off</WWISE_EVENT_2>
             </UseTemplate>
         </Component>
     </Template>
+
+    <!--<Template Name="HEAVY_B78XH_OVH_ELEC_DRIVE_1_1_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>ELECTRICAL_Push_Drive_1_1</NODE_ID>
+            <ANIM_NAME>ELECTRICAL_Push_Drive_1_1</ANIM_NAME>
+            <PART_ID>ELECTRICAL_Push_Drive_1_1</PART_ID>
+            <SWITCH_POSITION_TYPE>O</SWITCH_POSITION_TYPE>
+            <ANIMTIP_0>Disconnect pump on</ANIMTIP_0>
+            <ANIMTIP_1>Disconnect pump off</ANIMTIP_1>
+            <COVER_NODE_ID>ELECTRICAL_Push_Drive_1_1_Cover</COVER_NODE_ID>
+            <COVER_ANIM_NAME>ELECTRICAL_Push_Drive_1_1_Cover</COVER_ANIM_NAME>
+            <ANIM_LENGTH>100</ANIM_LENGTH>
+        </Parameters>
+
+        <<Component ID="#NODE_ID#" Node="#NODE_ID#">
+            <UseTemplate Name="ASOBO_GT_Switch_Covered">
+                <SWITCH_NODE_ID>ELECTRICAL_Push_Drive_1_1</SWITCH_NODE_ID>
+                <COVER_NODE_ID>ELECTRICAL_Push_Drive_1_1_Cover</COVER_NODE_ID>
+                <SWITCH_ANIM_NAME>ELECTRICAL_Push_Drive_1_1</SWITCH_ANIM_NAME>
+                <COVER_ANIM_NAME>ELECTRICAL_Push_Drive_1_1_Cover</COVER_ANIM_NAME>
+                <WWISE_EVENT_1>apu_generator_switch_on</WWISE_EVENT_1>
+                <WWISE_EVENT_2>apu_generator_switch_off</WWISE_EVENT_2>
+            </UseTemplate>
+        </Component>
+    </Template>
+
+    Left overhead lower corner panel   
+
+    <Template Name="HEAVY_B78XH_L_HUD_BRT">
+        <Parameters Type="Default">
+            <NODE_ID>knob_ovhd_Lmisc_L_hudBrt</NODE_ID>
+            <ANIM_NAME>knob_ovhd_Lmisc_L_hudBrt</ANIM_NAME>
+            <PART_ID>knob_ovhd_Lmisc_L_hudBrt</PART_ID>
+            <SWITCH_POSITION_TYPE>L</SWITCH_POSITION_TYPE>
+        </Parameters>
+
+        <COMPONENT ID="#NODE_ID#" Node="#NODE_ID#">
+            <UseTemplate Name="Asobo_GT_Knob_Infinite">
+                <NODE_ID>knob_ovhd_Lmisc_L_hudBrt</NODE_ID>
+                <ANIM_NAME>knob_ovhd_Lmisc_L_hudBrt</ANIM_NAME>
+                <SWITCH_DIRECTION>Horizontal</SWITCH_DIRECTION>
+                <CLOCKWISE_CODE> 1(>B:left_hud_brt_inc)</CLOCKWISE_CODE>
+                <ANTICLOCKWISE_CODE> 1(>B:left_hud_brt_dec)</ANTICLOCKWISE_CODE>
+            </UseTemplate>
+        </Component>
+    </Template>-->
+
+    <!--  Hydraulics Panel  -->
+
+    <Template Name="HEAVY_B78XH_HYD_L_ENG_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>HYDRAULIC_Push_Pump_1</NODE_ID>
+            <ANIM_NAME>HYDRAULIC_Push_Pump_1</ANIM_NAME>
+            <PART_ID>HYDRAULIC_Push_Pump_1</PART_ID>
+        </Parameters>
+    </Template>
+
+    <Template Name="HEAVY_B78XH_HYD_R_ENG_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>HYDRAULIC_Push_Pump_2</NODE_ID>
+            <ANIM_NAME>HYDRAULIC_Push_Pump_2</ANIM_NAME>
+            <PART_ID>HYDRAULIC_Push_Pump_2</PART_ID>
+        </Parameters>
+    </Template>
+
+    <!--  Air Conditioning Panel  -->
+
+    <Template Name="HEAVY_B78XH_OVH_AC_L_PACK_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>PRESSURIZATION_PUSH_PACKS_1</NODE_ID>
+            <ANIM_NAME>PRESSURIZATION_PUSH_PACKS_1</ANIM_NAME>
+            <PART_ID>PRESSURIZATION_PUSH_PACKS_1</PART_ID>
+            <ANIMTIP_0>Turn Left Pack to Auto</ANIMTIP_0>
+            <ANIMTIP_1>Turn Left Pack off</ANIMTIP_1>
+        </Parameters>
+
+        <Component ID="#NODE_ID#" Node="#NODE_ID#">
+            <UseTemplate Name="ASOBO_GT_Switch_Dummy">
+                <NODE_ID>PRESSURIZATION_PUSH_PACKS_1</NODE_ID>
+                <ANIM_NAME>PRESSURIZATION_PUSH_PACKS_1</ANIM_NAME>
+                <WWISE_EVENT_1>apu_generator_switch_on</WWISE_EVENT_1>
+                <WWISE_EVENT_2>apu_generator_switch_off</WWISE_EVENT_2>
+            </UseTemplate>
+        </Component>
+    </Template>
+
+    <Template Name="HEAVY_B78XH_OVH_AC_R_PACK_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>PRESSURIZATION_PUSH_PACKS_2</NODE_ID>
+            <ANIM_NAME>PRESSURIZATION_PUSH_PACKS_2</ANIM_NAME>
+            <PART_ID>PRESSURIZATION_PUSH_PACKS_2</PART_ID>
+            <ANIMTIP_0>Turn Right Pack to Auto</ANIMTIP_0>
+            <ANIMTIP_1>Turn Right Pack off</ANIMTIP_1>
+        </Parameters>
+
+        <Component ID="#NODE_ID#" Node="#NODE_ID#">
+            <UseTemplate Name="ASOBO_GT_Switch_Dummy">
+                <NODE_ID>PRESSURIZATION_PUSH_PACKS_2</NODE_ID>
+                <ANIM_NAME>PRESSURIZATION_PUSH_PACKS_2</ANIM_NAME>
+                <WWISE_EVENT_1>apu_generator_switch_on</WWISE_EVENT_1>
+                <WWISE_EVENT_2>apu_generator_switch_off</WWISE_EVENT_2>
+            </UseTemplate>
+        </Component>
+    </Template>
+
+    <Template Name="HEAVY_B78XH_OVH_TRIM_AIR_L_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>PRESSURIZATION_PUSH_L_TRIMAIR</NODE_ID>
+            <ANIM_NAME>PRESSURIZATION_PUSH_L_TRIMAIR</ANIM_NAME>
+            <PART_ID>PRESSURIZATION_PUSH_L_TRIMAIR</PART_ID>
+            <ANIMTIP_0>Turn Left Trim for air on</ANIMTIP_0>
+            <ANIMTIP_1>Turn Left Trim for air off</ANIMTIP_1>
+        </Parameters>
+
+        <Component ID="#NODE_ID#" Node="#NODE_ID#">
+            <UseTemplate Name="ASOBO_GT_Switch_Dummy">
+                <NODE_ID>PRESSURIZATION_PUSH_L_TRIMAIR</NODE_ID>
+                <ANIM_NAME>PRESSURIZATION_PUSH_L_TRIMAIR</ANIM_NAME>
+                <WWISE_EVENT_1>apu_generator_switch_on</WWISE_EVENT_1>
+                <WWISE_EVENT_2>apu_generator_switch_off</WWISE_EVENT_2>
+            </UseTemplate>
+        </Component>
+    </Template>
+    
+    <Template Name="HEAVY_B78XH_OVH_TRIM_AIR_R_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>PRESSURIZATION_PUSH_R_TRIMAIR</NODE_ID>
+            <ANIM_NAME>PRESSURIZATION_PUSH_R_TRIMAIR</ANIM_NAME>
+            <PART_ID>PRESSURIZATION_PUSH_R_TRIMAIR</PART_ID>
+            <ANIMTIP_0>Turn Right Trim for air on</ANIMTIP_0>
+            <ANIMTIP_1>Turn Right Trim for air off</ANIMTIP_1>
+        </Parameters>
+
+        <Component ID="#NODE_ID#" Node="#NODE_ID#">
+            <UseTemplate Name="ASOBO_GT_Switch_Dummy">
+                <NODE_ID>PRESSURIZATION_PUSH_R_TRIMAIR</NODE_ID>
+                <ANIM_NAME>PRESSURIZATION_PUSH_R_TRIMAIR</ANIM_NAME>
+                <WWISE_EVENT_1>apu_generator_switch_on</WWISE_EVENT_1>
+                <WWISE_EVENT_2>apu_generator_switch_off</WWISE_EVENT_2>
+            </UseTemplate>
+        </Component>
+    </Template>
+    
+    <Template Name="HEAVY_B78XH_OVH_FANS_LOWER_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>PRESSURIZATION_PUSH_FANSLOWER</NODE_ID>
+            <ANIM_NAME>PRESSURIZATION_FANSLOWER</ANIM_NAME>
+            <PART_ID>PRESSURIZATION_FANSLOWER</PART_ID>
+            <ANIMTIP_0>Turn Lower Fans on</ANIMTIP_0>
+            <ANIMTIP_1>Turn Lower Fans off</ANIMTIP_1>
+        </Parameters>
+
+        <Component ID="#NODE_ID#" Node="#NODE_ID#">
+            <UseTemplate Name="ASOBO_GT_Switch_Dummy">
+                <NODE_ID>PRESSURIZATION_PUSH_FANSLOWER</NODE_ID>
+                <ANIM_NAME>PRESSURIZATION_FANSLOWER</ANIM_NAME>
+                <WWISE_EVENT_1>apu_generator_switch_on</WWISE_EVENT_1>
+                <WWISE_EVENT_2>apu_generator_switch_off</WWISE_EVENT_2>
+            </UseTemplate>
+        </Component>
+    </Template>
+    
+    <Template Name="HEAVY_B78XH_OVH_RECIRC_UPPER_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>PRESSURIZATION_PUSH_RECIRCUPPER</NODE_ID>
+            <ANIM_NAME>PRESSURIZATION_PUSH_RECIRCUPPER</ANIM_NAME>
+            <PART_ID>PRESSURIZATION_PUSH_RECIRCUPPER</PART_ID>
+            <ANIMTIP_0>Turn Upper Recirculating Fans on</ANIMTIP_0>
+            <ANIMTIP_1>Turn Upper Recirculating Fans off</ANIMTIP_1>
+        </Parameters>
+
+        <Component ID="#NODE_ID#" Node="#NODE_ID#">
+            <UseTemplate Name="ASOBO_GT_Switch_Dummy">
+                <NODE_ID>PRESSURIZATION_PUSH_RECIRCUPPER</NODE_ID>
+                <ANIM_NAME>PRESSURIZATION_PUSH_RECIRCUPPER</ANIM_NAME>
+                <WWISE_EVENT_1>apu_generator_switch_on</WWISE_EVENT_1>
+                <WWISE_EVENT_2>apu_generator_switch_off</WWISE_EVENT_2>
+            </UseTemplate>
+        </Component>
+    </Template>
+    
+    <Template Name="HEAVY_B78XH_OVH_COOLING_AFT_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>PRESSURIZATION_PUSH_COOLINGAFT</NODE_ID>
+            <ANIM_NAME>PRESSURIZATION_COOLINGAFT</ANIM_NAME>
+            <PART_ID>PRESSURIZATION_COOLINGAFT</PART_ID>
+            <ANIMTIP_0>Turn Aft Cooling to Auto</ANIMTIP_0>
+            <ANIMTIP_1>Turn Aft Cooling off</ANIMTIP_1>
+        </Parameters>
+
+        <Component ID="#NODE_ID#" Node="#NODE_ID#">
+            <UseTemplate Name="ASOBO_GT_Switch_Dummy">
+                <NODE_ID>PRESSURIZATION_PUSH_COOLINGAFT</NODE_ID>
+                <ANIM_NAME>PRESSURIZATION_COOLINGAFT</ANIM_NAME>
+                <WWISE_EVENT_1>apu_generator_switch_on</WWISE_EVENT_1>
+                <WWISE_EVENT_2>apu_generator_switch_off</WWISE_EVENT_2>
+            </UseTemplate>
+        </Component>
+    </Template>
+        
+    <Template Name="HEAVY_B78XH_OVH_EQUIP_FWD_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>PRESSURIZATION_PUSH_EQUIPFWD</NODE_ID>
+            <ANIM_NAME>PRESSURIZATION_EQUIPFWD</ANIM_NAME>
+            <PART_ID>PRESSURIZATION_EQUIPFWD</PART_ID>
+            <ANIMTIP_0>Turn Fwd Cooling to Auto</ANIMTIP_0>
+            <ANIMTIP_1>Turn Fwd Cooling off</ANIMTIP_1>
+        </Parameters>
+
+        <Component ID="#NODE_ID#" Node="#NODE_ID#">
+            <UseTemplate Name="ASOBO_GT_Switch_Dummy">
+                <NODE_ID>PRESSURIZATION_PUSH_EQUIPFWD</NODE_ID>
+                <ANIM_NAME>PRESSURIZATION_EQUIPFWD</ANIM_NAME>
+                <WWISE_EVENT_1>apu_generator_switch_on</WWISE_EVENT_1>
+                <WWISE_EVENT_2>apu_generator_switch_off</WWISE_EVENT_2>
+            </UseTemplate>
+        </Component>
+    </Template>
+     
+    <Template Name="HEAVY_B78XH_OVH_OUTFLOW_FWD_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>PRESSURIZATION_PUSH_FWD</NODE_ID>
+            <ANIM_NAME>PRESSURIZATION_PUSH_FWD</ANIM_NAME>
+            <PART_ID>PRESSURIZATION_PUSH_FWD</PART_ID>
+            <ANIMTIP_0>Turn Fwd Outflow to Auto</ANIMTIP_0>
+            <ANIMTIP_1>Turn Fwd Outflow off</ANIMTIP_1>
+        </Parameters>
+
+        <Component ID="#NODE_ID#" Node="#NODE_ID#">
+            <UseTemplate Name="ASOBO_GT_Switch_Dummy">
+                <NODE_ID>PRESSURIZATION_PUSH_FWD</NODE_ID>
+                <ANIM_NAME>PRESSURIZATION_PUSH_FWD</ANIM_NAME>
+                <WWISE_EVENT_1>apu_generator_switch_on</WWISE_EVENT_1>
+                <WWISE_EVENT_2>apu_generator_switch_off</WWISE_EVENT_2>
+            </UseTemplate>
+        </Component>
+    </Template>
+           
+    <Template Name="HEAVY_B78XH_OVH_OUTFLOW_AFT_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>PRESSURIZATION_PUSH_AFT</NODE_ID>
+            <ANIM_NAME>PRESSURIZATION_PUSH_AFT</ANIM_NAME>
+            <PART_ID>PRESSURIZATION_PUSH_AFT</PART_ID>
+            <ANIMTIP_0>Turn Aft Outflow to Auto</ANIMTIP_0>
+            <ANIMTIP_1>Turn Aft Outflow off</ANIMTIP_1>
+        </Parameters>
+
+        <Component ID="#NODE_ID#" Node="#NODE_ID#">
+            <UseTemplate Name="ASOBO_GT_Switch_Dummy">
+                <NODE_ID>PRESSURIZATION_PUSH_AFT</NODE_ID>
+                <ANIM_NAME>PRESSURIZATION_PUSH_AFT</ANIM_NAME>
+                <WWISE_EVENT_1>apu_generator_switch_on</WWISE_EVENT_1>
+                <WWISE_EVENT_2>apu_generator_switch_off</WWISE_EVENT_2>
+            </UseTemplate>
+        </Component>
+    </Template>
+
+    <Template Name="HEAVY_B78XH_OVH_PRESSURE_VENT_TEMPLATE">
+        <Parameters Type="Default">
+            <NODE_ID>PRESSURIZATION_Push_VENTILATION</NODE_ID>
+            <ANIM_NAME>PRESSURIZATION_Push_VENTILATION</ANIM_NAME>
+            <PART_ID>PRESSURIZATION_Push_VENTILATION</PART_ID>
+            <ANIMTIP_0>Disconnect pump on</ANIMTIP_0>
+            <ANIMTIP_1>Disconnect pump off</ANIMTIP_1>
+            <COVER_NODE_ID>lock_ovh_airCond_ventilation</COVER_NODE_ID>
+            <COVER_ANIM_NAME>lock_ovh_airCond_ventilation</COVER_ANIM_NAME>
+            <ANIM_LENGTH>100</ANIM_LENGTH>
+        </Parameters>
+
+        <<Component ID="#NODE_ID#" Node="#NODE_ID#">
+            <UseTemplate Name="ASOBO_GT_Switch_Covered">
+                <ANIM_NAME>PRESSURIZATION_Push_VENTILATION</ANIM_NAME>
+                <WWISE_EVENT_1>apu_generator_switch_on</WWISE_EVENT_1>
+                <WWISE_EVENT_2>apu_generator_switch_off</WWISE_EVENT_2>
+            </UseTemplate>
+        </Component>
+    </Template>           
+        
 </ModelBehaviors>
